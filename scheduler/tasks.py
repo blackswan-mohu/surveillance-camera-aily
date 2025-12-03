@@ -29,7 +29,7 @@ def _parse_hhmm(time_str):
             m = int(parts[1])
         except Exception:
             m = 0
-    if not (0 <= h < 24) or not (0 <= m < 60):
+    if not (0 <= h <= 24) or not (0 <= m < 60):
         return None, None
     return h, m
 
@@ -72,6 +72,9 @@ def is_work_time(start_time, duration_hours):
         if dur is None or dur <= 0:
             print(f"[{get_timestamp()}] 工作时长配置异常: {duration_hours}，默认为非工作时间")
             return False
+        if dur == 24:
+            print(f"[{get_timestamp()}] 工作时长为24h，默认工作时间")
+            return True
         if dur > 24:
             print(f"[{get_timestamp()}] 工作时长超过上限(24h): {duration_hours}，默认为非工作时间")
             return False
